@@ -35,7 +35,10 @@ Public Class StringMatcher
         Dim PosSubStrings As New List(Of String)
         While Fin <= str2.Length
             For s As Integer = 0 To (str2.Length - Fin)
-                PosSubStrings.Add(str2.Substring(s, Fin))
+                Dim temp2 = str2.Substring(s, Fin)
+                If Not PosSubStrings.Contains(temp2) Then
+                    PosSubStrings.Add(temp2)
+                End If
             Next
             Fin += 1
         End While
@@ -50,7 +53,9 @@ Public Class StringMatcher
                     temp &= (words(x) & " ")
                 End If
             Next
-            PosSubStrings.Add(temp)
+            If Not PosSubStrings.Contains(temp) Then
+                PosSubStrings.Add(temp)
+            End If
             temp = String.Empty
         Next
         Return PosSubStrings
@@ -73,7 +78,7 @@ Public Class StringMatcher
                 If pat(j) = str(i) Then
                     j += 1
                     i += 1
-                    Counter += 1
+                    'Counter += 1
                 End If
 
                 If j = M Then
@@ -168,4 +173,5 @@ Public Class StringMatcher
     Private Shared Function Truncate(ByVal value As Double, ByVal dec As Integer) As Double
         Return Math.Round(value - 0.5 / Math.Pow(10, dec), dec)
     End Function
+
 End Class

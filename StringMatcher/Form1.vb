@@ -1,6 +1,5 @@
-﻿Imports System.Runtime.InteropServices.WindowsRuntime
+﻿Public Class StringMatcher
 
-Public Class StringMatcher
     Dim String1T As String
     Dim String2T As String
 
@@ -66,29 +65,24 @@ Public Class StringMatcher
         Dim Checks As Integer = 0
         For x As Integer = 0 To STC.Count - 1
             Dim pat = STC.Item(x)
-            Dim M As Integer = pat.Length
-            Dim N As Integer = str.Length
+            Dim K As Integer = pat.Length
+            Dim L As Integer = str.Length
             Dim i As Integer = 0
             Dim j As Integer = 0
-            Dim lps As Integer() = New Integer(M - 1) {}
-
-            ComputeLPSArray(pat, M, lps)
-
-            While i < N
+            Dim tc As Integer() = New Integer(K - 1) {}
+            ArrToCheck(pat, K, tc)
+            While i < L
                 If pat(j) = str(i) Then
                     j += 1
                     i += 1
-                    'Counter += 1
                 End If
-
-                If j = M Then
+                If j = K Then
                     Checks += 1
                     Counter += 1
-                    j = lps(j - 1)
-
-                ElseIf i < N AndAlso pat(j) <> str(i) Then
+                    j = tc(j - 1)
+                ElseIf i < L AndAlso pat(j) <> str(i) Then
                     If j <> 0 Then
-                        j = lps(j - 1)
+                        j = tc(j - 1)
                     Else
                         i = i + 1
                     End If
@@ -101,22 +95,21 @@ Public Class StringMatcher
         Return Final
     End Function
 
-    Private Shared Sub ComputeLPSArray(pat As String, m As Integer, lps As Integer())
+    Private Shared Sub ArrToCheck(pat As String, m As Integer, atc As Integer())
         Dim len As Integer = 0
         Dim i As Integer = 1
-
-        lps(0) = 0
+        atc(0) = 0
 
         While i < m
             If pat(i) = pat(len) Then
                 len += 1
-                lps(i) = len
+                atc(i) = len
                 i += 1
             Else
                 If len <> 0 Then
-                    len = lps(len - 1)
+                    len = atc(len - 1)
                 Else
-                    lps(i) = 0
+                    atc(i) = 0
                     i += 1
                 End If
             End If
@@ -128,25 +121,20 @@ Public Class StringMatcher
         Dim Checks As Integer = 0
         For x As Integer = 0 To STC.Count - 1
             Dim pat = STC.Item(x)
-            Dim m As Integer = pat.Length
-            Dim n As Integer = str.Length
-
+            Dim k As Integer = pat.Length
+            Dim l As Integer = str.Length
             Dim badChar As Integer() = New Integer(255) {}
-
-            BadCharHeuristic(pat, m, badChar)
-
+            BCH(pat, k, badChar)
             Dim s As Integer = 0
-            While s <= (n - m)
-                Dim j As Integer = m - 1
-
+            While s <= (l - k)
+                Dim j As Integer = k - 1
                 While j >= 0 AndAlso pat(j) = str(s + j)
                     j -= 1
                 End While
-
                 If j < 0 Then
                     Checks += 1
                     Counter += 1
-                    s += If((s + m < n), m - badChar(AscW(str(s + m))), 1)
+                    s += If((s + k < l), k - badChar(AscW(str(s + k))), 1)
                 Else
                     s += Math.Max(1, j - badChar(AscW(str(s + j))))
                     Counter += 1
@@ -158,13 +146,11 @@ Public Class StringMatcher
         Return Final
     End Function
 
-    Private Shared Sub BadCharHeuristic(str As String, size As Integer, ByRef badChar As Integer())
+    Private Shared Sub BCH(str As String, size As Integer, ByRef badChar As Integer())
         Dim i As Integer
-
         For i = 0 To 255
             badChar(i) = -1
         Next
-
         For i = 0 To size - 1
             badChar(AscW(str(i))) = i
         Next

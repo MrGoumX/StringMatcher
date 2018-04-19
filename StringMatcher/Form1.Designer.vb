@@ -25,10 +25,10 @@ Partial Class StringMatcher
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(StringMatcher))
         Me.String1 = New System.Windows.Forms.TextBox()
         Me.String2 = New System.Windows.Forms.TextBox()
-        Me.KMPMatch = New System.Windows.Forms.Button()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
-        Me.BMMatch = New System.Windows.Forms.Button()
+        Me.Button1 = New System.Windows.Forms.Button()
+        Me.Button3 = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
         'String1
@@ -45,15 +45,6 @@ Partial Class StringMatcher
         Me.String2.Name = "String2"
         Me.String2.Size = New System.Drawing.Size(310, 20)
         Me.String2.TabIndex = 1
-        '
-        'KMPMatch
-        '
-        Me.KMPMatch.Location = New System.Drawing.Point(12, 126)
-        Me.KMPMatch.Name = "KMPMatch"
-        Me.KMPMatch.Size = New System.Drawing.Size(75, 23)
-        Me.KMPMatch.TabIndex = 2
-        Me.KMPMatch.Text = "KMP Match"
-        Me.KMPMatch.UseVisualStyleBackColor = True
         '
         'Label1
         '
@@ -73,14 +64,23 @@ Partial Class StringMatcher
         Me.Label2.TabIndex = 4
         Me.Label2.Text = "String No 2"
         '
-        'BMMatch
+        'Button1
         '
-        Me.BMMatch.Location = New System.Drawing.Point(247, 126)
-        Me.BMMatch.Name = "BMMatch"
-        Me.BMMatch.Size = New System.Drawing.Size(75, 23)
-        Me.BMMatch.TabIndex = 5
-        Me.BMMatch.Text = "BM Match"
-        Me.BMMatch.UseVisualStyleBackColor = True
+        Me.Button1.Location = New System.Drawing.Point(12, 126)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(118, 23)
+        Me.Button1.TabIndex = 6
+        Me.Button1.Text = "Symmetric Match"
+        Me.Button1.UseVisualStyleBackColor = True
+        '
+        'Button3
+        '
+        Me.Button3.Location = New System.Drawing.Point(208, 126)
+        Me.Button3.Name = "Button3"
+        Me.Button3.Size = New System.Drawing.Size(114, 23)
+        Me.Button3.TabIndex = 8
+        Me.Button3.Text = "Asymmetric Match"
+        Me.Button3.UseVisualStyleBackColor = True
         '
         'StringMatcher
         '
@@ -88,10 +88,10 @@ Partial Class StringMatcher
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.AutoSize = True
         Me.ClientSize = New System.Drawing.Size(334, 161)
-        Me.Controls.Add(Me.BMMatch)
+        Me.Controls.Add(Me.Button3)
+        Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.Label1)
-        Me.Controls.Add(Me.KMPMatch)
         Me.Controls.Add(Me.String2)
         Me.Controls.Add(Me.String1)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
@@ -106,8 +106,8 @@ Partial Class StringMatcher
 
     Friend WithEvents String1 As TextBox
     Friend WithEvents String2 As TextBox
-    Friend WithEvents KMPMatch As Button
     Friend WithEvents Label1 As Label
     Friend WithEvents Label2 As Label
-    Friend WithEvents BMMatch As Button
+    Friend WithEvents Button1 As Button
+    Friend WithEvents Button3 As Button
 End Class

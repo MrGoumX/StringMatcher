@@ -1,3 +1,3 @@
 # String Matcher
 
-This project uses the Levenshtein and the Demarau/Levenshtein algorithms, to compare strings for spelling analysis.
+This project uses the Levenshtein distance and the Demarau/Levenshtein distance algorithms, to compare strings for spelling analysis.

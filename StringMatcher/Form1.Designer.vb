@@ -29,6 +29,7 @@ Partial Class StringMatcher
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.Button3 = New System.Windows.Forms.Button()
+        Me.Button2 = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
         'String1
@@ -68,19 +69,28 @@ Partial Class StringMatcher
         '
         Me.Button1.Location = New System.Drawing.Point(12, 126)
         Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(118, 23)
+        Me.Button1.Size = New System.Drawing.Size(99, 23)
         Me.Button1.TabIndex = 6
         Me.Button1.Text = "Symmetric Match"
         Me.Button1.UseVisualStyleBackColor = True
         '
         'Button3
         '
-        Me.Button3.Location = New System.Drawing.Point(208, 126)
+        Me.Button3.Location = New System.Drawing.Point(221, 126)
         Me.Button3.Name = "Button3"
-        Me.Button3.Size = New System.Drawing.Size(114, 23)
+        Me.Button3.Size = New System.Drawing.Size(101, 23)
         Me.Button3.TabIndex = 8
         Me.Button3.Text = "Asymmetric Match"
         Me.Button3.UseVisualStyleBackColor = True
+        '
+        'Button2
+        '
+        Me.Button2.Location = New System.Drawing.Point(117, 126)
+        Me.Button2.Name = "Button2"
+        Me.Button2.Size = New System.Drawing.Size(98, 23)
+        Me.Button2.TabIndex = 9
+        Me.Button2.Text = "Mechanic Test"
+        Me.Button2.UseVisualStyleBackColor = True
         '
         'StringMatcher
         '
@@ -88,6 +98,7 @@ Partial Class StringMatcher
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.AutoSize = True
         Me.ClientSize = New System.Drawing.Size(334, 161)
+        Me.Controls.Add(Me.Button2)
         Me.Controls.Add(Me.Button3)
         Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.Label2)
@@ -110,4 +121,5 @@ Partial Class StringMatcher
     Friend WithEvents Label2 As Label
     Friend WithEvents Button1 As Button
     Friend WithEvents Button3 As Button
+    Friend WithEvents Button2 As Button
 End Class

@@ -90,7 +90,6 @@ Public Class StringMatcher
         String2T = String2.Text
         Dim match As Double = Await (Task.Run(Function() SymmetricMatch(String1T, String2T)))
         watch.Stop()
-        Debug.WriteLine("Symmetric time: " + watch.Elapsed.TotalMilliseconds.ToString())
         MessageBox.Show("The Strings Are " & match & "% Identical With Symmetric Matching")
     End Sub
 
@@ -100,27 +99,28 @@ Public Class StringMatcher
         String2T = String2.Text
         Dim match As Double = Await (Task.Run(Function() AsymmetricMatch(String1T, String2T)))
         watch.Stop()
-        Debug.WriteLine("Asymmetric time: " + watch.Elapsed.TotalMilliseconds.ToString())
         MessageBox.Show("The Strings Are " & match & "% Identical With Asymmetric Matching")
     End Sub
 
-    Private Sub MechanicTest()
-        Dim reader As StreamReader = My.Computer.FileSystem.OpenTextFileReader(Directory.GetCurrentDirectory() + "\sentences.txt")
+    Private Async Sub MechanicTest(file As String, dest As String)
+        Dim reader As StreamReader = My.Computer.FileSystem.OpenTextFileReader(file)
         Dim sentences As List(Of String) = New List(Of String)
         Dim symTime As List(Of Double) = New List(Of Double)
         Dim symRes As List(Of Double) = New List(Of Double)
         Dim asymTime As List(Of Double) = New List(Of Double)
         Dim asymRes As List(Of Double) = New List(Of Double)
         Dim a As String
+        Dim count As Integer = 0
         Do
             a = reader.ReadLine()
             If (a <> Nothing) Then
                 sentences.Add(a)
+                count += 1
             End If
         Loop Until a Is Nothing
         reader.Close()
-        Debug.WriteLine(sentences.Capacity)
-        For k = 0 To 99
+        count -= 2
+        For k = 0 To count
             Dim watch As Stopwatch = Stopwatch.StartNew()
             Dim original As String = sentences.Item(k)
             Dim modified As String = sentences.Item(k + 1)
@@ -161,11 +161,10 @@ Public Class StringMatcher
             End If
             final = Truncate((max.Length - d(n, m)) / max.Length * 100, 2)
             watch.Stop()
-            Debug.WriteLine(watch.Elapsed.TotalMilliseconds)
             symTime.Add(watch.Elapsed.TotalMilliseconds * 100)
             symRes.Add(final)
         Next
-        For k = 0 To 99
+        For k = 0 To count
             Dim watch As Stopwatch = Stopwatch.StartNew()
             Dim original As String = sentences.Item(k)
             Dim l = k + 1
@@ -205,26 +204,39 @@ Public Class StringMatcher
             End If
             final = Truncate((max.Length - Matrix(len_orig, len_diff)) / max.Length * 100, 2)
             watch.Stop()
-            Debug.WriteLine(watch.Elapsed.TotalMilliseconds)
             asymTime.Add(watch.Elapsed.TotalMilliseconds * 100)
             asymRes.Add(final)
         Next
         Dim sum As Integer = 0
-        For i = 0 To 99
+        For i = 0 To count
             If symRes.Item(i) < asymRes.Item(i) Then
                 sum += 1
             End If
         Next
-        Debug.WriteLine(sum)
-        Dim Write As New System.IO.StreamWriter(Directory.GetCurrentDirectory() + "\results.csv")
-        For i = 0 To 99
+        Dim Write As New System.IO.StreamWriter(dest + "\results.csv")
+        Dim Init As String = "Iteration" & ";" & "Symmetric Result" & ";" & "Symmetric Time" & ";" & "Asymmetric Result" & ";" & "Asymmetric Time"
+        Write.WriteLine(Init)
+        For i = 0 To count
             Dim Text As String = i.ToString() & ";" & symRes.Item(i).ToString() & ";" & symTime.Item(i).ToString() & ";" & asymRes.Item(i).ToString() & ";" & asymTime.Item(i).ToString()
             Write.WriteLine(Text)
         Next
         Write.Close()
     End Sub
 
-    Private Sub StringMatcher_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        MechanicTest()
+    Private Async Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+        Dim filec As OpenFileDialog = New OpenFileDialog()
+        Dim folc As FolderBrowserDialog = New FolderBrowserDialog()
+        filec.DefaultExt = "txt"
+        filec.Title = "Please select a TXT file"
+        filec.InitialDirectory = "c:\users\"
+        filec.Filter = "All files|*.*|Text files|*.txt"
+        folc.Description = "Please choose output file path"
+        MessageBox.Show("In order to perform a mechanic test the string must be seperated by a new line", "Critical Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1)
+        If filec.ShowDialog() <> DialogResult.Cancel Then
+            If folc.ShowDialog() <> DialogResult.Cancel Then
+                Await (Task.Run(Sub() MechanicTest(filec.FileName, folc.SelectedPath)))
+                MessageBox.Show("Mechanic Test Completed Successfully")
+            End If
+        End If
     End Sub
 End Class
